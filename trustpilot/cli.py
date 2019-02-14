@@ -41,6 +41,8 @@ def format_response(response):
 @click.pass_context
 @click.option('--host', type=str, help="host name",
               envvar='TRUSTPILOT_API_HOST')
+@click.option('--version', type=str, help="api version (e.g. v1)",
+              envvar='TRUSTPILOT_API_VERSION')
 @click.option('--key', type=str, help="api key",
               envvar='TRUSTPILOT_API_KEY')
 @click.option('--secret', type=str, help="api secret",
@@ -111,6 +113,8 @@ def cli(ctx, **kwargs):
         client.create_session(
             api_host=kwargs.pop("host") or values_dict.get(
                 "TRUSTPILOT_API_HOST") or "https://api.tp-staging.com",
+            api_version=kwargs.pop("version") or values_dict.get(
+                "TRUSTPILOT_API_VERSION") or "v1",
             api_key=kwargs.pop("key") or values_dict["TRUSTPILOT_API_KEY"],
             api_secret=(kwargs.pop("secret")
                         or values_dict.get("TRUSTPILOT_API_SECRET", None)),

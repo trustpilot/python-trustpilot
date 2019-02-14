@@ -32,12 +32,13 @@ Use the built-in `default session` to instantiate a globally accessible session.
 from trustpilot import client
 client.default_session.setup(
     api_host="https://api.trustpilot.com",
+    api_version="v1",
     api_key="YOUR_API_KEY",
     api_secret="YOUR_API_SECRET",
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME",
     password="YOUR_TRUSTPILOT_BUSINESS_PASSWORD"
 )
-response = client.get("/v1/foo/bar")
+response = client.get("/foo/bar")
 ```
 
 You can rely on environment variables for the setup of sessions so
@@ -45,6 +46,7 @@ You can rely on environment variables for the setup of sessions so
 ```bash
 $ env
 TRUSTPILOT_API_HOST=foobar.com
+TRUSTPILOT_API_VERSION=v1
 TRUSTPILOT_API_KEY=foo
 TRUSTPILOT_API_SECRET=bar
 TRUSTPILOT_USERNAME=username
@@ -55,7 +57,7 @@ Will work with the implicit `default_session` and the `TrustpilotSession.setup` 
 
 ```python
 from trustpilot import client
-client.get("/v1/foo/bar")
+client.get("/foo/bar")
 ```
 
 ### Instantiate your own session
@@ -66,12 +68,13 @@ You can create as many sessions as you like, as long as you pass them around you
 from trustpilot import client
 session = client.TrustpilotSession(
     api_host="https://api.trustpilot.com",
+    api_version="v1",
     api_key="YOUR_API_KEY",
     api_secret="YOUR_API_SECRET",
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME",
     password="YOUR_TRUSTPILOT_BUSINESS_PASSWORD"
 )
-response = session.get("/v1/foo/bar")
+response = session.get("/foo/bar")
 ```
 
 ## Async client
@@ -86,7 +89,7 @@ from trustpilot import async_client
 loop = asyncio.get_event_loop()
 
 async def get_response():
-    response = await async_client.get('/v1/foo/bar')
+    response = await async_client.get('/foo/bar')
     response_json = await response.json()
 
 loop.run_until_complete(get_response())
@@ -101,6 +104,7 @@ loop = asyncio.get_event_loop()
 
 session = async_client.TrustpilotAsyncSession(
     api_host="https://api.trustpilot.com",
+    api_version="v1",
     api_key="YOUR_API_KEY",
     api_secret="YOUR_API_SECRET",
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME",
@@ -108,7 +112,7 @@ session = async_client.TrustpilotAsyncSession(
 )
 
 async def get_response():
-    response = await session.get('/v1/foo/bar')
+    response = await session.get('/foo/bar')
     response_json = await response.json()
 
 loop.run_until_complete(get_response())
@@ -124,6 +128,7 @@ Usage: trustpilot_api_client [OPTIONS] COMMAND [ARGS]...
 
 Options:
   --host TEXT               host name
+  --version TEST            api version
   --key TEXT                api key
   --secret TEXT             api secret
   --token_issuer_host TEXT  token issuer host name
@@ -146,6 +151,7 @@ In order to use the **-c** option please supply the filename of a JSON in the fo
 ```json
 {
   "TRUSTPILOT_API_HOST": "foo",
+  "TRUSTPILOT_API_VERSION": "v1",
   "TRUSTPILOT_API_KEY": "bar",
   "TRUSTPILOT_API_SECRET": "baz",
   "TRUSTPILOT_USERNAME": "username",

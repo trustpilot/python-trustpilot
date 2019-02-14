@@ -26,13 +26,14 @@ class TrustpilotAsyncSession():
         self.setup(**kwargs)
         self.headers = {}
 
-    def setup(self, api_host=None, api_key=None, api_secret=None,
+    def setup(self, api_host=None, api_version=None, api_key=None, api_secret=None,
               username=None, password=None,
               access_token=None, token_issuer_path=None,
               token_issuer_host=None, **kwargs):
 
-        self.api_host = api_host or environ.get(
-            'TRUSTPILOT_API_HOST', 'https://api.trustpilot.com')
+        self.api_version = api_version or environ.get('TRUSTPILOT_API_VERSION', 'v1')
+        self.api_host = api_host or 
+                            environ.get('TRUSTPILOT_API_HOST', 'https://api.trustpilot.com/{version}'.format(version=self.api_version))
         self.token_issuer_host = token_issuer_host or self.api_host
         self.access_token = access_token
         self.token_issuer_path = token_issuer_path or environ.get(
