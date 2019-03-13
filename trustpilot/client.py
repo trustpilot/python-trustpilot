@@ -38,7 +38,7 @@ class TrustpilotSession(requests.Session):
               token_issuer_host=None, **kwargs):
         
         self.api_version = api_version or environ.get('TRUSTPILOT_API_VERSION', 'v1')
-        self.api_host = api_host or environ.get('TRUSTPILOT_API_HOST', 'https://api.trustpilot.com/{version}'.format(version=self.api_version))
+        self.api_host = api_host or environ.get('TRUSTPILOT_API_HOST', 'https://api.trustpilot.com')
         self.token_issuer_host = token_issuer_host or self.api_host
         self.access_token = access_token
         self.token_issuer_path = token_issuer_path or environ.get(
@@ -107,7 +107,7 @@ class TrustpilotSession(requests.Session):
 
     def request(self, method, url, **kwargs):  # pylint: disable=W0221
         if not any(prefix in url for prefix in ["http://", "https://"]):
-            url = "{}{}".format(self.api_host, url)
+            url = "{}/{}{}".format(self.api_host.rstrip('/'), self.api_version, url)
         return super(TrustpilotSession, self).request(method, url, **kwargs)
 
 

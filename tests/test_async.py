@@ -35,11 +35,12 @@ def test_async_client_auth_and_get():
             api_key='something',
             api_secret='secret',
             username='username',
-            password='password'
+            password='password',
+            api_version='v1'
         )
 
         async def get_response():
-            response = await session.get('/v1/foo/bar')
+            response = await session.get('/foo/bar')
             response_json = await response.json()
             assert response_json['foo'] == 'foobarbaz'
             assert session.access_token == 'foobarbaz'

@@ -21,8 +21,9 @@ def get_user_agent():
 
 
 def create_access_token_request_params(session):
-    url = "{token_issuer_host}/{token_issuer_path}".format(
-        token_issuer_host=session.token_issuer_host,
+    url = "{token_issuer_host}/{api_version}/{token_issuer_path}".format(
+        token_issuer_host=session.token_issuer_host.rstrip('/'),
+        api_version=session.api_version.rstrip('/'),
         token_issuer_path=session.token_issuer_path
     )
     data = {
