@@ -19,7 +19,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click==6.7',
-    'requests==2.20.0',
+    'requests>=2.20.0',
 ]
 
 test_requirements = [
