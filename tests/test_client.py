@@ -8,7 +8,6 @@ import json
 
 from trustpilot import client
 
-
 def assert_not_called(mock):
     assert mock.call_count == 0
 
@@ -25,8 +24,9 @@ class TestCliMethods(unittest.TestCase):
         self.token_issuer_host = "https://hostname.com"
         self.username = "username"
         self.password = "password"
+        self.api_version='v1'
 
-        self.request_url = "/v1/this/1"
+        self.request_url = "/this/1"
 
         self.exp_headers = {
             'apikey': 'secret_api_key',
@@ -41,7 +41,8 @@ class TestCliMethods(unittest.TestCase):
             token_issuer_path=self.token_issuer_path,
             token_issuer_host=self.token_issuer_host,
             username=self.username,
-            password=self.password
+            password=self.password,
+            api_version=self.api_version
         )
         return session
 
@@ -54,7 +55,8 @@ class TestCliMethods(unittest.TestCase):
             access_token_path=self.token_issuer_path,
             token_issuer_host=self.token_issuer_host,
             username=self.username,
-            password=self.password
+            password=self.password,
+            api_version=self.api_version
         )
         for attr in ["api_key",
                      "api_secret",
@@ -62,7 +64,8 @@ class TestCliMethods(unittest.TestCase):
                      "token_issuer_path",
                      "token_issuer_host",
                      "username",
-                     "password"]:
+                     "password",
+                     "api_version"]:
             assert getattr(self, attr) == getattr(session, attr)
 
     @responses.activate
@@ -129,6 +132,7 @@ class TestCliMethods(unittest.TestCase):
                     body="foo",
                     status=401
             )
+            
             session = self.session
             response = session.get(self.request_url)
 
