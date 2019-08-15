@@ -120,3 +120,8 @@ DELETED DO NOT USE!!
 ------------------
 
 * Remove auto-deploy to travis
+
+6.0.5 (2019-08-15)
+------------------
+
+* allow newer version of requests dependency
