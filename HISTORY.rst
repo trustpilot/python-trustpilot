@@ -115,3 +115,8 @@ DELETED DO NOT USE!!
 ------------------
 
 * Added support for 'API Version' parameter for Client initialisation.
+
+6.0.4 (2019-08-15)
+------------------
+
+* Remove auto-deploy to travis

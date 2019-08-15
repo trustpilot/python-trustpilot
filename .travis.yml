@@ -31,17 +31,6 @@ after_success:
 - git fetch origin
 
 deploy:
-  - provider: pypi
-    skip_cleanup: true
-    distributions: sdist
-    user: trustpilot
-    password:
-      secure: "MbUU6tDIX1EGCJFRb3BPULM7WoH5CtHJkFf8+nWQB43EW2Wae55x/u2JWiCZ4H8ifjwxMKEGnl0vJkRXjc6tKw03KJJwJRrLxI1PYh8wLws4m4LvmCys2fVIAAn65UI56azWheywkGdmGmOcUnrnCxqNtg2FmbmLXbizJ0NQyPWVKn2kEiTX3+opXPu7+Q4EUnpyiVXzznysYtVZKKUgr2tQTzs2Zjz6UV2FpEp5wbGLJuHMPpAEq3VxAn0kRkbD0/NMR71cFX1twXhSQxXXUk4LM1TF4gU53J3t+CWJ5BGk+R8yBmL1G6yrFMF1jxQxXZuXBiNr7+VD14SaYD1cM6P/uwm0KwwWA7TxZZcKvPA4p0uTgNLetG8r6EbomNq+2WoEtPeLow1CHxVKB/36+iPLw8nm8WjAu/sHhKEzxbfZDN/T86vG59a6ZgOgRpFk35YanvSbFFMY4hrkUzcXxi3pEwZGdtRIPrBXJNp6kKGxIFaQ4PY5S5nBD5cLWYvMnoHDSCouieVb9XjCwoXuyQKbTqenZgZope6uQOYAxGhvVnlqEM25nUo+agMwJC79zgGKaHWteOB7pUnqjlj7AHgVCu+077AbsIwcsyDIchpzWuLcAGqPlv6jlAYortk/ibX6PH3jNpQM6xcBHHHtksWD6nRJ3AN2edore9VqNuQ="
-    on:
-      tags: false
-      branch: master
-      repo: trustpilot/python-trustpilot
-      condition: $TRAVIS_PYTHON_VERSION = "3.5"
   - provider: releases
     skip_cleanup: true
     api-key:
