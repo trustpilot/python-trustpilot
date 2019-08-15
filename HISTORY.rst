@@ -110,3 +110,8 @@ DELETED DO NOT USE!!
 * reorganize code
 * add user-agent header
 * get access_token with async call in async_client
+
+6.0.3 (2019-08-15)
+------------------
+
+* Added support for 'API Version' parameter for Client initialisation.
