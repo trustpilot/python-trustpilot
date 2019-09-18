@@ -1,5 +1,6 @@
 import json
 from click.testing import CliRunner
+
 try:
     from unittest import mock
 except ImportError:
@@ -12,12 +13,18 @@ from trustpilot import __version__
 
 
 _creds_list = [
-    "--host", "http://hostname",
-    "--key", "secret_key",
-    "--secret", "secret_secret",
-    "--username", "username",
-    "--password", "password",
+    "--host",
+    "http://hostname",
+    "--key",
+    "secret_key",
+    "--secret",
+    "secret_secret",
+    "--username",
+    "username",
+    "--password",
+    "password",
 ]
+
 
 class TestCliMethods(unittest.TestCase):
     def setUp(self):
@@ -26,26 +33,24 @@ class TestCliMethods(unittest.TestCase):
         response_mock.url = "https://api.trustpilot.com/v1/business-units/5400267300006400057a0113/reviews"
         response_mock.status_code = 401
         response_mock.headers = {
-                "Access-Control-Allow-Headers": "Authorization, Accept, Accept-Charset, Accept-Encoding, Accept-Language, Cache-Control, Connection, Content-Length, Content-Type, Host, Origin, User-Agent, ApiKey, X-Requested-With",
-                "Access-Control-Allow-Methods": "GET",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Max-Age": "3628800",
-                "Content-Type": "application/json",
-                "Date": "Mon, 30 Jan 2017 08:59:49 GMT",
-                "Server": "Apigee Router",
-                "Content-Length": "90",
-                "Connection": "keep-alive"
-            }
+            "Access-Control-Allow-Headers": "Authorization, Accept, Accept-Charset, Accept-Encoding, Accept-Language, Cache-Control, Connection, Content-Length, Content-Type, Host, Origin, User-Agent, ApiKey, X-Requested-With",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Max-Age": "3628800",
+            "Content-Type": "application/json",
+            "Date": "Mon, 30 Jan 2017 08:59:49 GMT",
+            "Server": "Apigee Router",
+            "Content-Length": "90",
+            "Connection": "keep-alive",
+        }
         response_mock.json.return_value = {
-                "fault": {
-                    "faultstring": "Invalid ApiKey",
-                    "detail": {
-                        "errorcode": "oauth.v2.InvalidApiKey"
-                    }
-                }
+            "fault": {
+                "faultstring": "Invalid ApiKey",
+                "detail": {"errorcode": "oauth.v2.InvalidApiKey"},
             }
+        }
         self.response_mock = response_mock
-        self.expected_output = u'''{
+        self.expected_output = u"""{
           "url": "https://api.trustpilot.com/v1/business-units/5400267300006400057a0113/reviews",
           "status": 401,
           "content": {
@@ -57,8 +62,8 @@ class TestCliMethods(unittest.TestCase):
             }
           }
         }
-        '''
-        self.expected_verbose_output = u'''{
+        """
+        self.expected_verbose_output = u"""{
           "url": "https://api.trustpilot.com/v1/business-units/5400267300006400057a0113/reviews",
           "status": 401,
           "headers": {
@@ -81,7 +86,7 @@ class TestCliMethods(unittest.TestCase):
             }
           }
         }
-        '''
+        """
 
     def assert_output_equal(self, output, expected_output):
         output = "".join(output.split())
@@ -91,7 +96,7 @@ class TestCliMethods(unittest.TestCase):
             expected_output = json.loads(expected_output)
         except ValueError:
             pass
-        assert  output == expected_output
+        assert output == expected_output
 
     @mock.patch("trustpilot.cli.client", autospec=True)
     def test_create_access_token(self, client_mock):
@@ -105,8 +110,11 @@ class TestCliMethods(unittest.TestCase):
 
         client_mock.get.return_value = self.response_mock
 
-        result = self.runner.invoke(cli, _creds_list + [
-            "get", "/v1/business-units/5400267300006400057a0113/reviews"])
+        result = self.runner.invoke(
+            cli,
+            _creds_list
+            + ["get", "/v1/business-units/5400267300006400057a0113/reviews"],
+        )
 
         self.assert_output_equal(result.output, self.expected_output)
 
@@ -115,48 +123,60 @@ class TestCliMethods(unittest.TestCase):
     def test_low_verbosity_with_get(self, auth_mock, client_mock):
         client_mock.get.return_value = self.response_mock
 
-        result = self.runner.invoke(cli, _creds_list + [
-            "-v",
-            "get",
-            "/v1/business-units/5400267300006400057a0113/reviews"
-        ])
+        result = self.runner.invoke(
+            cli,
+            _creds_list
+            + ["-v", "get", "/v1/business-units/5400267300006400057a0113/reviews"],
+        )
         self.assert_output_equal(result.output, self.expected_verbose_output)
-
 
     @mock.patch("trustpilot.cli.client", autospec=True)
     @mock.patch("trustpilot.cli.auth")
     def test_no_verbosity_with_post(self, auth_mock, client_mock):
         client_mock.post.return_value = self.response_mock
 
-        result = self.runner.invoke(cli, _creds_list + [
-            "post",
-            "/v1/business-units/5400267300006400057a0113/reviews",
-            "--data",
-            '{"foo": "bar"}',
-            "--content_type", "application/json"])
+        result = self.runner.invoke(
+            cli,
+            _creds_list
+            + [
+                "post",
+                "/v1/business-units/5400267300006400057a0113/reviews",
+                "--data",
+                '{"foo": "bar"}',
+                "--content_type",
+                "application/json",
+            ],
+        )
         self.assert_output_equal(result.output, self.expected_output)
-
 
     @mock.patch("trustpilot.cli.client", autospec=True)
     @mock.patch("trustpilot.cli.auth")
     def test_no_verbosity_with_put(self, auth_mock, client_mock):
         client_mock.put.return_value = self.response_mock
 
-        result = self.runner.invoke(cli, _creds_list + [
-            "put",
-            "/v1/business-units/5400267300006400057a0113/reviews",
-            "--data",
-            '{"foo": "bar"}',
-            "--content_type", "application/json"])
+        result = self.runner.invoke(
+            cli,
+            _creds_list
+            + [
+                "put",
+                "/v1/business-units/5400267300006400057a0113/reviews",
+                "--data",
+                '{"foo": "bar"}',
+                "--content_type",
+                "application/json",
+            ],
+        )
         self.assert_output_equal(result.output, self.expected_output)
-
 
     @mock.patch("trustpilot.cli.client", autospec=True)
     @mock.patch("trustpilot.cli.auth")
     def test_no_verbosity_with_delete(self, auth_mock, client_mock):
         client_mock.delete.return_value = self.response_mock
 
-        result = self.runner.invoke(cli, _creds_list + [
-            "delete", "/v1/business-units/5400267300006400057a0113/reviews"])
+        result = self.runner.invoke(
+            cli,
+            _creds_list
+            + ["delete", "/v1/business-units/5400267300006400057a0113/reviews"],
+        )
 
         self.assert_output_equal(result.output, self.expected_output)
