@@ -1,6 +1,5 @@
 
-include CONTRIBUTING.rst
-include HISTORY.rst
+include HISTORY.md
 include README.md
 
 recursive-include tests *

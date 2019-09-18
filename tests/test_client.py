@@ -8,8 +8,10 @@ import json
 
 from trustpilot import client
 
+
 def assert_not_called(mock):
     assert mock.call_count == 0
+
 
 def assert_called_once(mock):
     assert mock.call_count == 1
@@ -20,17 +22,20 @@ class TestCliMethods(unittest.TestCase):
         self.api_host = "https://hostname.com"
         self.api_key = "secret_api_key"
         self.api_secret = "secret_api_secret"
-        self.token_issuer_path = "oauth/oauth-business-users-for-applications/accesstoken"
+        self.token_issuer_path = (
+            "oauth/oauth-business-users-for-applications/accesstoken"
+        )
         self.token_issuer_host = "https://hostname.com"
         self.username = "username"
         self.password = "password"
-        self.api_version='v1'
+        self.api_version = "v1"
 
         self.request_url = "/this/1"
 
         self.exp_headers = {
-            'apikey': 'secret_api_key',
-            'Authorization': 'Bearer access_token'}
+            "apikey": "secret_api_key",
+            "Authorization": "Bearer access_token",
+        }
 
     @property
     def session(self):
@@ -42,7 +47,7 @@ class TestCliMethods(unittest.TestCase):
             token_issuer_host=self.token_issuer_host,
             username=self.username,
             password=self.password,
-            api_version=self.api_version
+            api_version=self.api_version,
         )
         return session
 
@@ -56,51 +61,46 @@ class TestCliMethods(unittest.TestCase):
             token_issuer_host=self.token_issuer_host,
             username=self.username,
             password=self.password,
-            api_version=self.api_version
+            api_version=self.api_version,
         )
-        for attr in ["api_key",
-                     "api_secret",
-                     "api_host",
-                     "token_issuer_path",
-                     "token_issuer_host",
-                     "username",
-                     "password",
-                     "api_version"]:
+        for attr in [
+            "api_key",
+            "api_secret",
+            "api_host",
+            "token_issuer_path",
+            "token_issuer_host",
+            "username",
+            "password",
+            "api_version",
+        ]:
             assert getattr(self, attr) == getattr(session, attr)
 
     @responses.activate
     def test_get_public_endpoint_with_apikey_and_no_access_token(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
 
             session = client.default_session.setup(api_host=self.api_host)
             response = session.get(self.request_url)
-            assert response.text == 'bar'
+            assert response.text == "bar"
             assert response.status_code == 200
 
     @responses.activate
     def test_request_renew_auth_token_success(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='{"access_token":"access_token"}', status=200
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body='{"access_token":"access_token"}',
+                status=200,
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="foo", status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
 
             session = self.session
@@ -113,50 +113,39 @@ class TestCliMethods(unittest.TestCase):
 
     @responses.activate
     def test_request_renew_auth_token_fail(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='go away', status=401
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body="go away",
+                status=401,
             )
             rsps.add(
-                    responses.GET,
-                    'https://hostname.com/v1/this/1',
-                    body="bar",
-                    status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=401
             )
             rsps.add(
-                    responses.GET,
-                    'https://hostname.com/v1/this/1',
-                    body="foo",
-                    status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
-            
+
             session = self.session
             response = session.get(self.request_url)
 
             assert response.text == "foo"
 
-
     @responses.activate
     def test_no_hooks(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='{"access_token":"access_token"}', status=200
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body='{"access_token":"access_token"}',
+                status=200,
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="foo", status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
             session = self.session
             hook_mock = mock.Mock()
@@ -168,22 +157,18 @@ class TestCliMethods(unittest.TestCase):
 
     @responses.activate
     def test_pre_hook(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='{"access_token":"access_token"}', status=200
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body='{"access_token":"access_token"}',
+                status=200,
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="foo", status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
             session = self.session
             hook_mock = mock.Mock()
@@ -197,22 +182,18 @@ class TestCliMethods(unittest.TestCase):
 
     @responses.activate
     def test_post_hook(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='{"access_token":"access_token"}', status=200
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body='{"access_token":"access_token"}',
+                status=200,
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="foo", status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
             session = self.session
             hook_mock = mock.Mock()
@@ -224,22 +205,18 @@ class TestCliMethods(unittest.TestCase):
 
     @responses.activate
     def test_pre_and_post_hooks(self):
-        with responses.RequestsMock(
-                assert_all_requests_are_fired=True) as rsps:
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
-                'https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken',
-                body='{"access_token":"access_token"}', status=200
+                "https://hostname.com/v1/oauth/oauth-business-users-for-applications/accesstoken",
+                body='{"access_token":"access_token"}',
+                status=200,
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="foo", status=401
+                responses.GET, "https://hostname.com/v1/this/1", body="foo", status=401
             )
             rsps.add(
-                responses.GET,
-                'https://hostname.com/v1/this/1',
-                body="bar", status=200
+                responses.GET, "https://hostname.com/v1/this/1", body="bar", status=200
             )
             session = self.session
             hook_mock = mock.Mock()
