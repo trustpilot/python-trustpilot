@@ -29,15 +29,15 @@ after_success:
 - git push origin --tags
 - git fetch origin
 
-deploy:
-  - provider: releases
-    skip_cleanup: true
-    api-key:
-      secure: "Msi7Ko/I5l+aJJszbBtUrER84PCag8YRiuAT9JNKCLwI+POmShrXhy9IAZg9Ot82lDrgiadExxhiFQPjiMGgZaT1N/akM30loE8PpsXdIKq+ChERFDj4QgZlhWnpQroeW/sefRCd9Bw8aInZyze84d0j9tv4zFP4aujlcHZmPdobUowJBp3RkotxWYNcRP+Viv/3fhChnth7eiLlRgNBBT/+yLKUWlE7gLzV4h/wjgv3aNnFtINTN72WT9DKyJs657+JGauRG6AMPCYhyYd0fA9O09JOd8l4S2/p6Sup7bfWUvyaYCQO8npSDo4s3LvPJbW+gTDOihJsysfojRf1n2HnvZt82xhDGbt9qNns7wDatxj4BmAl7LMVW2ON60c7hl8uZ170f0r7V9IqH4+az02FeZUXPPHVfc9+tSR6RSrZElL8RprNcy4f1jxW4drKeZKi6CGPjJAJ4x8kj985cj83kOc45SqxZH6vVojMOntgZez9dMKJUAbVIfRSs9dojf2OQYBCo/kysfv0+xck+VruPybuNhjCaCa5a21olSf6ZMO2EB7lXBr+AEeXF/Xth0cfEBUhBkCyuBFjsPhrXSENfsd3n4RhxST+sdy/oi0qMDYll4xVKSZRUGLoQljfpFJ1uWYdgmDa/xjCYxuZzy+IUXkXiKnCsfKKSYXc7Ms="
-    file_glob: true
-    file: dist/*
-    on:
-      tags: false
-      branch: master
-      repo: trustpilot/python-trustpilot
-      condition: $TRAVIS_PYTHON_VERSION = "3.5"
+# deploy:
+#   - provider: releases
+#     skip_cleanup: true
+#     api-key:
+#       secure: "Msi7Ko/I5l+aJJszbBtUrER84PCag8YRiuAT9JNKCLwI+POmShrXhy9IAZg9Ot82lDrgiadExxhiFQPjiMGgZaT1N/akM30loE8PpsXdIKq+ChERFDj4QgZlhWnpQroeW/sefRCd9Bw8aInZyze84d0j9tv4zFP4aujlcHZmPdobUowJBp3RkotxWYNcRP+Viv/3fhChnth7eiLlRgNBBT/+yLKUWlE7gLzV4h/wjgv3aNnFtINTN72WT9DKyJs657+JGauRG6AMPCYhyYd0fA9O09JOd8l4S2/p6Sup7bfWUvyaYCQO8npSDo4s3LvPJbW+gTDOihJsysfojRf1n2HnvZt82xhDGbt9qNns7wDatxj4BmAl7LMVW2ON60c7hl8uZ170f0r7V9IqH4+az02FeZUXPPHVfc9+tSR6RSrZElL8RprNcy4f1jxW4drKeZKi6CGPjJAJ4x8kj985cj83kOc45SqxZH6vVojMOntgZez9dMKJUAbVIfRSs9dojf2OQYBCo/kysfv0+xck+VruPybuNhjCaCa5a21olSf6ZMO2EB7lXBr+AEeXF/Xth0cfEBUhBkCyuBFjsPhrXSENfsd3n4RhxST+sdy/oi0qMDYll4xVKSZRUGLoQljfpFJ1uWYdgmDa/xjCYxuZzy+IUXkXiKnCsfKKSYXc7Ms="
+#     file_glob: true
+#     file: dist/*
+#     on:
+#       tags: false
+#       branch: master
+#       repo: trustpilot/python-trustpilot
+#       condition: $TRAVIS_PYTHON_VERSION = "3.5"
