@@ -125,3 +125,8 @@ DELETED DO NOT USE!!
 ------------------
 
 * allow newer version of requests dependency
+
+6.0.6 (2019-09-18)
+------------------
+
+* specify user agent through env-var or kwarg
