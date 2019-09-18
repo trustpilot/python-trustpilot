@@ -35,8 +35,8 @@ class TrustpilotSession(requests.Session):
     def setup(self, api_host=None, api_version=None, api_key=None, api_secret=None,
               username=None, password=None,
               access_token=None, token_issuer_path=None,
-              token_issuer_host=None, **kwargs):
-        
+              token_issuer_host=None, user_agent=None, **kwargs):
+
         self.api_version = api_version or environ.get('TRUSTPILOT_API_VERSION', 'v1')
         self.api_host = api_host or environ.get('TRUSTPILOT_API_HOST', 'https://api.trustpilot.com')
         self.token_issuer_host = token_issuer_host or self.api_host
@@ -44,6 +44,7 @@ class TrustpilotSession(requests.Session):
         self.token_issuer_path = token_issuer_path or environ.get(
             'TRUSTPILOT_API_TOKEN_ISSUER_PATH', "oauth/oauth-business-users-for-applications/accesstoken")
         self.hooks = dict()
+        self.user_agent = user_agent or environ.get("TRUSTPILOT_USER_AGENT", auth.get_user_agent())
 
         if not self.api_host.startswith("http"):
             raise requests.URLRequired(
@@ -121,7 +122,7 @@ def get_session():
 def create_session(api_host=None, api_version=None, api_key=None, api_secret=None,
                    username=None, password=None,
                    access_token_path=None,
-                   token_issuer_host=None, access_token=None):
+                   token_issuer_host=None, access_token=None, user_agent=None):
     warn("'trustpilot.client.create_session' is deprecated!, "
          "use trustpilot.client.default_session.setup instead",
          DeprecationWarning)
@@ -135,7 +136,8 @@ def create_session(api_host=None, api_version=None, api_key=None, api_secret=Non
         token_issuer_path=access_token_path,
         token_issuer_host=token_issuer_host,
         username=username,
-        password=password
+        password=password,
+        user_agent=None
     )
 
     return default_session

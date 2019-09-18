@@ -31,13 +31,13 @@ def create_access_token_request_params(session):
         "username": session.username,
         "password": session.password
     }
-    
+
     headers = {
         "Authorization": "Basic {}".format(base64.b64encode(
             (session.api_key + ":" + session.api_secret
              ).encode("ascii")).decode("ascii")
         ),
-        'User-Agent': get_user_agent()
+        'User-Agent': session.user_agent
     }
 
     return url, data, headers

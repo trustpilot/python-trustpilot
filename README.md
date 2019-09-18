@@ -118,6 +118,14 @@ async def get_response():
 loop.run_until_complete(get_response())
 ```
 
+## Setup User Agent
+
+A UserAgent header can be specified in two ways:
+
+1. By populating the `TRUSTPILOT_USER_AGENT` environment var
+2. By creating your own (async/sync)-client instance, or calling `setup` on the `default_session`, and supplying the kwargs `user_agent=foobar`
+
+If no user-agent is given it will autopopulate using the function in `get_user_agent` function in [auth.py](./trustpilot/auth.py)
 
 ## CLI
 

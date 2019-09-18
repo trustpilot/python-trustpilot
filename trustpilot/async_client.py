@@ -29,7 +29,7 @@ class TrustpilotAsyncSession():
     def setup(self, api_host=None, api_version=None, api_key=None, api_secret=None,
               username=None, password=None,
               access_token=None, token_issuer_path=None,
-              token_issuer_host=None, **kwargs):
+              token_issuer_host=None, user_agent=None, **kwargs):
 
         self.api_version = api_version or environ.get('TRUSTPILOT_API_VERSION', 'v1')
         self.api_host = api_host or environ.get('TRUSTPILOT_API_HOST', 'https://api.trustpilot.com')
@@ -38,6 +38,7 @@ class TrustpilotAsyncSession():
         self.token_issuer_path = token_issuer_path or environ.get(
             'TRUSTPILOT_API_TOKEN_ISSUER_PATH', "oauth/oauth-business-users-for-applications/accesstoken")
         self.hooks = dict()
+        self.user_agent = user_agent or environ.get("TRUSTPILOT_USER_AGENT", auth.get_user_agent())
 
         if not self.api_host.startswith("http"):
             raise aiohttp.http_exceptions.InvalidURLError(
