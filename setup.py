@@ -50,8 +50,8 @@ setup(
     version=metadata['__version__'],
     description="trustpilot api client including cli tool",
     long_description=readme + '\n\n' + history,
-    author="jgv",
-    author_email='jgv@trustpilot.com',
+    author=metadata['__author__'],
+    author_email=metadata['__email__'],
     url='https://github.com/trustpilot/python-trustpilot',
     packages=[
         'trustpilot',
