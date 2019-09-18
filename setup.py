@@ -5,18 +5,9 @@ from setuptools import setup
 import sys
 import os
 
-try:
-    from pypandoc import convert
+readme = open("README.md", "r").read()
 
-    read_md = lambda f: convert(f, "rst")
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, "r").read()
-
-readme = read_md("README.md")
-
-with open("HISTORY.rst") as history_file:
-    history = history_file.read()
+history = open("HISTORY.md").read()
 
 requirements = ["Click==6.7", "requests>=2.20.0"]
 
@@ -43,6 +34,7 @@ setup(
     version=metadata["__version__"],
     description="trustpilot api client including cli tool",
     long_description=readme + "\n\n" + history,
+    long_description_content_type="text/markdown",
     author=metadata["__author__"],
     author_email=metadata["__email__"],
     url="https://github.com/trustpilot/python-trustpilot",
