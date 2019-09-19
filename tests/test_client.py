@@ -235,10 +235,17 @@ class TestCliMethods(unittest.TestCase):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.GET,
-                "https://hostname.com/v1/v1/foo/bar",
+                "https://hostname.com/v1/foo/bar",
+                status=200,
+            )
+            rsps.add(
+                responses.GET,
+                "https://hostname.com/v1/v2/foo/bar",
                 status=404,
             )
             session = self.session
             res = session.get("/v1/foo/bar")
+            double_res = session.get("/v2/foo/bar")
 
-            assert res.status_code == 404
+            assert res.status_code == 200
+            assert double_res.status_code == 404

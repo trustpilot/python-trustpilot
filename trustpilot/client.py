@@ -51,7 +51,8 @@ class TrustpilotSession(requests.Session):
         **kwargs
     ):
 
-        self.api_version = api_version or environ.get("TRUSTPILOT_API_VERSION", "v1")
+        self.api_version = api_version or environ.get(
+            "TRUSTPILOT_API_VERSION", "v1")
         self.api_host = api_host or environ.get(
             "TRUSTPILOT_API_HOST", "https://api.trustpilot.com"
         )
@@ -73,13 +74,15 @@ class TrustpilotSession(requests.Session):
 
         try:
             self.api_key = api_key or environ["TRUSTPILOT_API_KEY"]
-            self.api_secret = api_secret or environ.get("TRUSTPILOT_API_SECRET", "")
+            self.api_secret = api_secret or environ.get(
+                "TRUSTPILOT_API_SECRET", "")
             self.username = username or environ.get("TRUSTPILOT_USERNAME")
             self.password = password or environ.get("TRUSTPILOT_PASSWORD")
             self.access_token = access_token
             self.hooks["response"] = self._post_request_callback
         except KeyError as e:
-            logger.debug("Not auth setup, missing env-var or setup for {}".format(e))
+            logger.debug(
+                "Not auth setup, missing env-var or setup for {}".format(e))
 
         return self
 
@@ -128,9 +131,14 @@ class TrustpilotSession(requests.Session):
         self._post_hooks.append(hook)
 
     def request(self, method, url, **kwargs):  # pylint: disable=W0221
-        if not any(prefix in url for prefix in ["http://", "https://"]):
-            url = "{}/{}{}".format(self.api_host.rstrip("/"), self.api_version, url)
-        return super(TrustpilotSession, self).request(method, url, **kwargs)
+        cleaned_url = self.api_host.rstrip(
+            "/") if not any(prefix in url for prefix in ["http://", "https://"]) else url
+
+        if (url.startswith("/{}".format(self.api_version))):
+            cleaned_url += "{}".format(url)
+        else:
+            cleaned_url += "/{}{}".format(self.api_version, url)
+        return super(TrustpilotSession, self).request(method, cleaned_url, **kwargs)
 
 
 def get_session():
