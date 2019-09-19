@@ -113,3 +113,7 @@ DELETED DO NOT USE\!\!
 
 - pass user_agent property down to session correctly
 - handle duplicate api version properly
+
+### 6.0.9 (2019-09-19)
+
+- fix: transmit user-agent on all requests
