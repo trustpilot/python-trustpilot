@@ -2,7 +2,7 @@
 import requests
 import logging
 
-from trustpilot import auth
+from trustpilot import auth, utils
 from os import environ
 from warnings import warn
 
@@ -130,16 +130,8 @@ class TrustpilotSession(requests.Session):
         self._post_hooks.append(hook)
 
     def request(self, method, url, **kwargs):  # pylint: disable=W0221
-        cleaned_url = (
-            self.api_host.rstrip("/")
-            if not any(prefix in url for prefix in ["http://", "https://"])
-            else url
-        )
+        cleaned_url = utils.get_cleaned_url(url, self.api_host, self.api_version)
 
-        if url.startswith("/{}".format(self.api_version)):
-            cleaned_url += "{}".format(url)
-        else:
-            cleaned_url += "/{}{}".format(self.api_version, url)
         return super(TrustpilotSession, self).request(method, cleaned_url, **kwargs)
 
 
