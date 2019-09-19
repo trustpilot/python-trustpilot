@@ -170,7 +170,7 @@ def create_session(
         token_issuer_host=token_issuer_host,
         username=username,
         password=password,
-        user_agent=None,
+        user_agent=user_agent,
     )
 
     return default_session
