@@ -73,10 +73,11 @@ class TrustpilotAsyncSession:
                 response_json = await response.json()
                 self.access_token = response_json["access_token"]
                 self.headers.update(
-                    dict(
-                        Authorization="Bearer {}".format(self.access_token),
-                        apikey=self.api_key,
-                    )
+                    {
+                        "Authorization": "Bearer {}".format(self.access_token),
+                        "apikey": self.api_key,
+                        "User-Agent": self.user_agent,
+                    }
                 )
 
     async def authenticated_request(self, method, url, **kwargs):
