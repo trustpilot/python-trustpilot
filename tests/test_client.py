@@ -109,7 +109,8 @@ class TestCliMethods(unittest.TestCase):
             headers = dict(response.request.headers)
 
             assert response.text == "bar"
-            assert all(value == headers[key] for key, value in self.exp_headers.items())
+            assert all(value == headers[key]
+                       for key, value in self.exp_headers.items())
 
     @responses.activate
     def test_request_renew_auth_token_fail(self):
@@ -228,3 +229,16 @@ class TestCliMethods(unittest.TestCase):
 
             assert_called_once(hook_mock.pre_hook)
             assert_called_once(hook_mock.post_hook)
+
+    @responses.activate
+    def test_api_version(self):
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            rsps.add(
+                responses.GET,
+                "https://hostname.com/v1/v1/foo/bar",
+                status=404,
+            )
+            session = self.session
+            res = session.get("/v1/foo/bar")
+
+            assert res.status_code == 404
