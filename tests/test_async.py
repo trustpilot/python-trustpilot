@@ -40,7 +40,7 @@ def test_async_client_auth_and_get():
 @pytest.mark.skipif(
     sys.version_info < (3, 5, 2), reason="requires python 3.5.2 or above"
 )
-def test_async_api_version(self):
+def test_async_api_version():
     loop = asyncio.get_event_loop()
 
     with aioresponses() as m:
@@ -62,8 +62,8 @@ def test_async_api_version(self):
             double_res = await session.get("/v2/foo/bar")
             full_url_res = await session.get("https://12345.com/v23/foo/bar")
 
-            assert res.status_code == 200
-            assert double_res.status_code == 404
-            assert full_url_res.status_code == 200
+            assert res.status == 200
+            assert double_res.status == 404
+            assert full_url_res.status == 200
 
         resp = loop.run_until_complete(get_response())
