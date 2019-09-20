@@ -117,3 +117,7 @@ DELETED DO NOT USE\!\!
 ### 6.0.9 (2019-09-19)
 
 - fix: transmit user-agent on all requests
+
+### 6.0.10 (2019-09-20)
+
+- fix: handle duplicate api version for both sync and async clients

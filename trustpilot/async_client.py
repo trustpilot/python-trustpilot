@@ -10,7 +10,7 @@ logger = getLogger("trustpilot.async_client")
 
 from os import environ
 import base64
-from trustpilot import auth
+from trustpilot import auth, utils
 
 
 class TrustpilotAsyncSession:
@@ -83,18 +83,18 @@ class TrustpilotAsyncSession:
     async def authenticated_request(self, method, url, **kwargs):
         if method not in self.__SUPPORTED_HTTP_METHODS:
             raise RuntimeError("Http method {} not supported".format(method))
-        if not any(prefix in url for prefix in ["http://", "https://"]):
-            url = "{}/{}{}".format(self.api_host.rstrip("/"), self.api_version, url)
+
+        cleaned_url = utils.get_cleaned_url(url, self.api_host, self.api_version)
 
         async with aiohttp.ClientSession(headers=self.headers) as session:
             http_method = getattr(session, method)
-            response = await http_method(url, **kwargs)
+            response = await http_method(cleaned_url, **kwargs)
 
         if response.status == 401:
             await self.get_request_auth_headers()
             async with aiohttp.ClientSession(headers=self.headers) as session:
                 http_method = getattr(session, method)
-                response = await http_method(url, **kwargs)
+                response = await http_method(cleaned_url, **kwargs)
         return response
 
     async def post(self, url, *args, **kwargs):
