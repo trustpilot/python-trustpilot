@@ -4,7 +4,7 @@ def get_cleaned_url(url, api_host, api_version):
 
     cleaned_url = api_host.rstrip("/")
     if url.startswith("/{}".format(api_version)):
-        cleaned_url += "{}".format(url)
+        cleaned_url += url
     else:
         cleaned_url += "/{}{}".format(api_version, url)
 
