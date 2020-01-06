@@ -9,7 +9,10 @@ readme = open("README.md", "r").read()
 
 history = open("HISTORY.md").read()
 
-requirements = ["Click==6.7", "requests>=2.20.0"]
+requirements = [
+    "Click==6.7", 
+    "requests>=2.22.0",
+]
 
 test_requirements = [
     "responses==0.6",
@@ -19,9 +22,9 @@ test_requirements = [
 ] + requirements
 
 if sys.version_info >= (3, 5):
-    test_requirements.append("aioresponses==0.3.1")
+    test_requirements.append("aioresponses==0.6.1")
 
-async_requirements = ["aiohttp==2.3.9"] + requirements
+async_requirements = ["aiohttp==3.6.2"] + requirements
 
 extras = {"test": test_requirements, "async": async_requirements}
 # get version

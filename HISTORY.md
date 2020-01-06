@@ -121,3 +121,7 @@ DELETED DO NOT USE\!\!
 ### 6.0.10 (2019-09-20)
 
 - fix: handle duplicate api version for both sync and async clients
+
+### 6.1.0 (2019-01-06)
+
+- dependencies: github security upgrade of requests and urllib
