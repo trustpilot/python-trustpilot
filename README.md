@@ -20,6 +20,11 @@ Install the package from [PyPI](http://pypi.python.org/pypi/) using [pip](https:
 pip install trustpilot
 ```
 
+if you wanna install with async support (python>=3.6+) then install with
+```
+pip install trustpilot[async]
+```
+
 ## Getting Started
 
 This client is using the [Requests](http://docs.python-requests.org/en/master/) library. Responses are standard [`requests.Response`](http://docs.python-requests.org/en/master/api/#requests.Response) objects. You can use it as a factory or as a singleton.
@@ -114,6 +119,33 @@ session = async_client.TrustpilotAsyncSession(
 async def get_response():
     response = await session.get('/foo/bar')
     response_json = await response.json()
+
+loop.run_until_complete(get_response())
+```
+
+### Advanced async usage
+
+The async client uses an *asynccontextmanager* under the hood to perform the uspported request methods.
+A side effect of the implementation is that it buffers up all the content before returning it to the calling scope.
+
+You can get around this limitation by using the *asynccontextmanager* directly like in the next example.
+
+**Example with stream reading the raw aiohttp response object:**
+
+```
+import asyncio
+from trustpilot import async_client
+loop = asyncio.get_event_loop()
+
+async def get_response():
+    async with session.request_context_manager('get', "/v1/foo/bar") as resp:
+        result = True
+        while True:
+            chunk = resp.content.read(8)
+            if not chunk:
+                break
+            result += chunk
+    return result
 
 loop.run_until_complete(get_response())
 ```
