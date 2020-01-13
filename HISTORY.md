@@ -130,6 +130,7 @@ DELETED DO NOT USE\!\!
 
 **breaking changes**:
 
+* python 2.7 support now gone since it reached end of-life 
 * now only supporting async_client for 3.6+
 * now depending on async_generator for asynccontextmanager support in 3.6+
 
