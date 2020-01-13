@@ -10,7 +10,7 @@ readme = open("README.md", "r").read()
 history = open("HISTORY.md").read()
 
 requirements = [
-    "Click==6.7", 
+    "Click==6.7",
     "requests>=2.22.0",
     "aiohttp==3.6.2; python_version>='3.6'",
     "async_generator==1.10; python_version=='3.6'",
@@ -58,7 +58,7 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8"
+        "Programming Language :: Python :: 3.8",
     ],
     test_suite="tests",
     tests_require=test_requirements,

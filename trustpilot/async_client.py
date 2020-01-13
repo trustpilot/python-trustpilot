@@ -6,12 +6,15 @@ except ImportError:
     raise RuntimeError("aiohttp is not installed, possibly running in python27?")
 
 import sys
+
 version_info = sys.version_info
 if version_info.major == 3 and version_info.minor < 7:
     try:
         from async_generator import asynccontextmanager
     except:
-        raise RuntimeError("You are using python<3.7 and have not install async_generator")
+        raise RuntimeError(
+            "You are using python<3.7 and have not install async_generator"
+        )
 else:
     # python>=3.7
     from contextlib import asynccontextmanager
@@ -118,7 +121,9 @@ class TrustpilotAsyncSession:
                     yield response
 
     async def authenticated_request(self, method, url, *args, **kwargs):
-        async with self.request_context_manager(method, url, *args, **kwargs) as response:
+        async with self.request_context_manager(
+            method, url, *args, **kwargs
+        ) as response:
             await response.read()
             return response
 

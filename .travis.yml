@@ -12,11 +12,12 @@ python:
 
 install:
 - pip install -U pip
-- pip install .[test]
+- pip install .[test] black
 - if [[ $TRAVIS_PYTHON_VERSION != 2.7 ]]; then pip install .[async]; fi
 
 script:
 - pytest
+- black --check .
 
 branches:
   only: master

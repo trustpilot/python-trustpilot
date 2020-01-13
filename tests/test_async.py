@@ -5,6 +5,7 @@ from aioresponses import aioresponses
 import asyncio
 from trustpilot import async_client
 
+
 @pytest.mark.skipif(
     sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
 )
@@ -68,6 +69,7 @@ def test_async_api_version():
 
         resp = loop.run_until_complete(get_response())
 
+
 @pytest.mark.skipif(
     sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
 )
@@ -87,9 +89,8 @@ def test_advanced_context_manager_usage():
         )
 
         async def get_response():
-            async with session.request_context_manager('get', "/v1/foo/bar") as resp:
+            async with session.request_context_manager("get", "/v1/foo/bar") as resp:
                 text = await resp.text()
                 assert text == '"foobar"'
-            
 
         resp = loop.run_until_complete(get_response())
