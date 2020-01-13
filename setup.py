@@ -10,8 +10,10 @@ readme = open("README.md", "r").read()
 history = open("HISTORY.md").read()
 
 requirements = [
-    "Click==6.7", 
+    "Click==6.7",
     "requests>=2.22.0",
+    "aiohttp==3.6.2; python_version>='3.6'",
+    "async_generator==1.10; python_version=='3.6'",
 ]
 
 test_requirements = [
@@ -19,14 +21,14 @@ test_requirements = [
     "mock",
     "pytest==3.2.0",
     "pytest-readme==1.0.0",
-] + requirements
+]
 
 if sys.version_info >= (3, 5):
     test_requirements.append("aioresponses==0.6.1")
 
-async_requirements = ["aiohttp==3.6.2"] + requirements
 
-extras = {"test": test_requirements, "async": async_requirements}
+extras = {"test": test_requirements, "async": []}  # async is legacy
+
 # get version
 metadata = {}
 version_filename = os.path.join(os.path.dirname(__file__), "trustpilot", "__init__.py")
@@ -52,9 +54,10 @@ setup(
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     test_suite="tests",
     tests_require=test_requirements,

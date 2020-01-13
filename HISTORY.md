@@ -122,6 +122,18 @@ DELETED DO NOT USE\!\!
 
 - fix: handle duplicate api version for both sync and async clients
 
-### 6.1.0 (2019-01-06)
+### 6.1.0 (2020-01-06)
 
 - dependencies: github security upgrade of requests and urllib
+
+### 7.0.0 (2020-01-13)
+
+**breaking changes**:
+
+* python 2.7 support now gone since it reached end of-life 
+* now only supporting async_client for 3.6+
+* now depending on async_generator for asynccontextmanager support in 3.6+
+
+**new features**:
+
+* advanced mode using the **request_context_manager** directly

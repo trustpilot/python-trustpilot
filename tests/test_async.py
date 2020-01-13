@@ -5,8 +5,9 @@ from aioresponses import aioresponses
 import asyncio
 from trustpilot import async_client
 
+
 @pytest.mark.skipif(
-    sys.version_info < (3, 5, 2), reason="requires python 3.5.2 or above"
+    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
 )
 def test_async_client_auth_and_get():
     loop = asyncio.get_event_loop()
@@ -38,7 +39,7 @@ def test_async_client_auth_and_get():
 
 
 @pytest.mark.skipif(
-    sys.version_info < (3, 5, 2), reason="requires python 3.5.2 or above"
+    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
 )
 def test_async_api_version():
     loop = asyncio.get_event_loop()
@@ -65,5 +66,31 @@ def test_async_api_version():
             assert res.status == 200
             assert double_res.status == 404
             assert full_url_res.status == 200
+
+        resp = loop.run_until_complete(get_response())
+
+
+@pytest.mark.skipif(
+    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
+)
+def test_advanced_context_manager_usage():
+    loop = asyncio.get_event_loop()
+
+    with aioresponses() as m:
+        m.get("https://api.tp-staging.com/v1/foo/bar", status=200, payload="foobar")
+
+        session = async_client.TrustpilotAsyncSession(
+            api_host="https://api.tp-staging.com",
+            api_key="something",
+            api_secret="secret",
+            username="username",
+            password="password",
+            api_version="v1",
+        )
+
+        async def get_response():
+            async with session.request_context_manager("get", "/v1/foo/bar") as resp:
+                text = await resp.text()
+                assert text == '"foobar"'
 
         resp = loop.run_until_complete(get_response())

@@ -235,7 +235,7 @@ class TestCliMethods(unittest.TestCase):
             rsps.add(responses.GET, "https://hostname.com/v1/foo/bar", status=200)
             rsps.add(responses.GET, "https://hostname.com/v1/v2/foo/bar", status=404)
             rsps.add(responses.GET, "https://12345.com/v23/foo/bar", status=200)
-            
+
             session = self.session
             res = session.get("/v1/foo/bar")
             double_res = session.get("/v2/foo/bar")

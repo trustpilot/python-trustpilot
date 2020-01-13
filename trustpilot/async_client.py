@@ -4,6 +4,21 @@ try:
     import aiohttp
 except ImportError:
     raise RuntimeError("aiohttp is not installed, possibly running in python27?")
+
+import sys
+
+version_info = sys.version_info
+if version_info.major == 3 and version_info.minor < 7:
+    try:
+        from async_generator import asynccontextmanager
+    except:
+        raise RuntimeError(
+            "You are using python<3.7 and have not install async_generator"
+        )
+else:
+    # python>=3.7
+    from contextlib import asynccontextmanager
+
 from logging import getLogger
 
 logger = getLogger("trustpilot.async_client")
@@ -80,22 +95,37 @@ class TrustpilotAsyncSession:
                     }
                 )
 
-    async def authenticated_request(self, method, url, **kwargs):
+    @asynccontextmanager
+    async def request_context_manager(self, method, url, *args, **kwargs):
         if method not in self.__SUPPORTED_HTTP_METHODS:
             raise RuntimeError("Http method {} not supported".format(method))
 
         cleaned_url = utils.get_cleaned_url(url, self.api_host, self.api_version)
 
+        authenticate_and_retry = False
         async with aiohttp.ClientSession(headers=self.headers) as session:
             http_method = getattr(session, method)
-            response = await http_method(cleaned_url, **kwargs)
+            async with http_method(cleaned_url, *args, **kwargs) as response:
+                if response.status == 401:
+                    authenticate_and_retry = True
+                else:
+                    yield response
 
-        if response.status == 401:
+        if authenticate_and_retry:
+            # first try ended in not-authenticated
+            # trying again
             await self.get_request_auth_headers()
             async with aiohttp.ClientSession(headers=self.headers) as session:
                 http_method = getattr(session, method)
-                response = await http_method(cleaned_url, **kwargs)
-        return response
+                async with http_method(cleaned_url, *args, **kwargs) as response:
+                    yield response
+
+    async def authenticated_request(self, method, url, *args, **kwargs):
+        async with self.request_context_manager(
+            method, url, *args, **kwargs
+        ) as response:
+            await response.read()
+            return response
 
     async def post(self, url, *args, **kwargs):
         return await self.authenticated_request("post", url, *args, **kwargs)
