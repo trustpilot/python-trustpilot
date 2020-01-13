@@ -125,7 +125,7 @@ loop.run_until_complete(get_response())
 
 ### Advanced async usage
 
-The async client uses an *asynccontextmanager* under the hood to perform the uspported request methods.
+The async client uses an *asynccontextmanager* under the hood to perform the supported request methods.
 A side effect of the implementation is that it buffers up all the content before returning it to the calling scope.
 
 You can get around this limitation by using the *asynccontextmanager* directly like in the next example.

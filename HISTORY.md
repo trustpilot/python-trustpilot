@@ -130,7 +130,7 @@ DELETED DO NOT USE\!\!
 
 **breaking changes**:
 
-* not only supporting async_client for 3.6+
+* now only supporting async_client for 3.6+
 * now depending on async_generator for asynccontextmanager support in 3.6+
 
 **new features**:
