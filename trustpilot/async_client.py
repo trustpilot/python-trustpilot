@@ -146,3 +146,4 @@ get = default_session.get
 post = default_session.post
 put = default_session.put
 delete = default_session.delete
+request_context_manager = default_session.request_context_manager

@@ -137,3 +137,7 @@ DELETED DO NOT USE\!\!
 **new features**:
 
 * advanced mode using the **request_context_manager** directly
+
+### 7.0.1 (2020-01-13)
+
+* add shortcut to singleton async request_context_manager
