@@ -1,30 +1,26 @@
-sudo: required
 language: python
-
-addons:
-  apt_packages:
-  - pandoc
-
 python:
-- '3.6'
-- '3.7'
+  - "3.6"
+  - "3.7"
+cache: pip
+
+before_install:
+  - pip install --upgrade pip
+  - pip install poetry
 
 install:
-- pip install -U pip
-- pip install .[test] black
-- if [[ $TRAVIS_PYTHON_VERSION != 2.7 ]]; then pip install .[async]; fi
+  - poetry config virtualenvs.create false
+  - poetry install --verbose
 
 script:
-- pytest
-- black --check .
+  - poetry run black --check .
+  - poetry run pytest -vvv tests
 
-branches:
-  only: master
+deploy:
+  provider: script
+  script: poetry publish --build
+  on:
+    branch: master
 
-after_success:
-- git config --global user.email "travis@travis-ci.org"
-- git config --global user.name "Travis"
-- git tag -a v$(python setup.py --version) -m "Travis build $TRAVIS_BUILD_NUMBER pushed
-  a tag."
-- git push origin --tags
-- git fetch origin
+notifications:
+  email: false
