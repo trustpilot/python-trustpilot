@@ -101,7 +101,7 @@ class TestCliMethods(unittest.TestCase):
     @mock.patch("trustpilot.cli.client", autospec=True)
     def test_create_access_token(self, client_mock):
         client_mock.default_session.access_token = "access_token"
-        result = self.runner.invoke(cli, _creds_list + ["create_access_token"])
+        result = self.runner.invoke(cli, _creds_list + ["create-access-token"])
         self.assert_output_equal(result.output, "access_token")
 
     @mock.patch("trustpilot.cli.client", autospec=True)

@@ -1,5 +1,3 @@
-# pylint: disable-all
-
 try:
     import aiohttp
 except ImportError:
@@ -16,7 +14,6 @@ if version_info.major == 3 and version_info.minor < 7:
             "You are using python<3.7 and have not install async_generator"
         )
 else:
-    # python>=3.7
     from contextlib import asynccontextmanager
 
 from logging import getLogger

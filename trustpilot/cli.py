@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import click
 import json
 import logging
@@ -29,7 +28,7 @@ def format_response(response):
     output = OrderedDict()
     output["url"] = response.url
     output["status"] = response.status_code
-    if get_verbosity():  # pylint: disable=E1120
+    if get_verbosity():
         headers = response.headers
         output["headers"] = OrderedDict((k, headers[k]) for k in headers)
     output["content"] = content
@@ -215,4 +214,4 @@ def put(path, data, content_type):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=E1120
+    cli()

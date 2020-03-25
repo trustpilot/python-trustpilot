@@ -129,7 +129,7 @@ class TrustpilotSession(requests.Session):
     def register_post_hook(self, hook):
         self._post_hooks.append(hook)
 
-    def request(self, method, url, **kwargs):  # pylint: disable=W0221
+    def request(self, method, url, **kwargs):
         cleaned_url = utils.get_cleaned_url(url, self.api_host, self.api_version)
 
         return super(TrustpilotSession, self).request(method, cleaned_url, **kwargs)

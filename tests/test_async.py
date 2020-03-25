@@ -1,4 +1,3 @@
-# pylint: disable-all
 import pytest
 import sys
 from aioresponses import aioresponses
