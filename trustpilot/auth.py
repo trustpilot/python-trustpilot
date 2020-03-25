@@ -2,8 +2,7 @@ import requests
 import base64
 import logging
 import platform
-from trustpilot import __version__ as VERSION
-
+from trustpilot import VERSION
 
 OS = platform.system()
 PYTHON_VERSION = platform.python_version()

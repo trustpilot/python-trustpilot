@@ -9,7 +9,6 @@ import unittest
 
 
 from trustpilot.cli import cli
-from trustpilot import __version__
 
 
 _creds_list = [

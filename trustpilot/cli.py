@@ -10,7 +10,7 @@ current_dir = path.dirname(path.abspath(getsourcefile(lambda: 0)))
 sys.path.insert(0, current_dir[: current_dir.rfind(path.sep)])
 logger = logging.getLogger(__name__)
 
-from trustpilot import client, auth, __version__
+from trustpilot import client, auth, VERSION
 from collections import OrderedDict
 
 
@@ -85,11 +85,7 @@ def cli(ctx, **kwargs):
         \_| |_/ .__/|_|  \____/_|_|\___|_| |_|\__|
               | |
               |_|   """
-    splash = (
-        click.style(splash, fg="green")
-        + click.style("v{}".format(__version__), fg="red")
-        + "\n"
-    )
+    splash = click.style(splash, fg="green") + "\n"
 
     values_dict = {}
     config_filename = kwargs.pop("c")
