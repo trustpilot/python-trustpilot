@@ -145,3 +145,4 @@ DELETED DO NOT USE\!\!
 ### 8.0.0 (2020-03-25)
 
 - update click to version 7.0.1 which renames the command `create_access_token` to `create-access-token`
+- drop support for python 3.6

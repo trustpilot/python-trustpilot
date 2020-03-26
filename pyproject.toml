@@ -11,27 +11,24 @@ repository = "https://github.com/trustpilot/python-trustpilot"
 license = "MIT"
 keywords = ["trustpilot", "api", "client"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 click = "^7.1.1"
 requests = "^2.23.0"
 aiohttp = "^3.6.2"
-async_generator = "^1.10"
 
 [tool.poetry.dev-dependencies]
 responses = "^0.10.12"
 mock = "^4.0.2"
 pytest = "^5.4.1"
-pytest-readme = "^1.0.0"
 aioresponses = "^0.6.3"
 black = "^19.10b0"
 
