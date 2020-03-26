@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
+import pkg_resources
 
-__author__ = "sloev"
-__email__ = "johannes.valbjorn@gmail.com"
-__version__ = "7.0.1"
+try:
+    VERSION = pkg_resources.get_distribution("trustpilot").version
+except:
+    VERSION = "unknown"

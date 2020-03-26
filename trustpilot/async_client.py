@@ -1,31 +1,12 @@
-# pylint: disable-all
-
-try:
-    import aiohttp
-except ImportError:
-    raise RuntimeError("aiohttp is not installed, possibly running in python27?")
-
-import sys
-
-version_info = sys.version_info
-if version_info.major == 3 and version_info.minor < 7:
-    try:
-        from async_generator import asynccontextmanager
-    except:
-        raise RuntimeError(
-            "You are using python<3.7 and have not install async_generator"
-        )
-else:
-    # python>=3.7
-    from contextlib import asynccontextmanager
-
+from contextlib import asynccontextmanager
 from logging import getLogger
+from os import environ
+import aiohttp
+import base64
+
+from trustpilot import auth, utils
 
 logger = getLogger("trustpilot.async_client")
-
-from os import environ
-import base64
-from trustpilot import auth, utils
 
 
 class TrustpilotAsyncSession:

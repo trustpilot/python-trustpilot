@@ -130,14 +130,21 @@ DELETED DO NOT USE\!\!
 
 **breaking changes**:
 
-* python 2.7 support now gone since it reached end of-life 
-* now only supporting async_client for 3.6+
-* now depending on async_generator for asynccontextmanager support in 3.6+
+- python 2.7 support now gone since it reached end of-life
+- now only supporting async_client for 3.6+
+- now depending on async_generator for asynccontextmanager support in 3.6+
 
 **new features**:
 
-* advanced mode using the **request_context_manager** directly
+- advanced mode using the **request_context_manager** directly
 
 ### 7.0.1 (2020-01-13)
 
-* add shortcut to singleton async request_context_manager
+- add shortcut to singleton async request_context_manager
+
+### 8.0.0 (2020-03-25)
+
+- update click to version 7.1.1 which renames the command `create_access_token` to `create-access-token`
+- drop support for python 3.6
+- drop deprecated `trustpilot.client.get_session` method. It is replaced by `trustpilot.client.default_session`
+- drop deprecated `trustpilot.client.create_session` method. it is replaced by `trustpilot.client.default_session.setup`

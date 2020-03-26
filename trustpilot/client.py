@@ -129,53 +129,10 @@ class TrustpilotSession(requests.Session):
     def register_post_hook(self, hook):
         self._post_hooks.append(hook)
 
-    def request(self, method, url, **kwargs):  # pylint: disable=W0221
+    def request(self, method, url, **kwargs):
         cleaned_url = utils.get_cleaned_url(url, self.api_host, self.api_version)
 
         return super(TrustpilotSession, self).request(method, cleaned_url, **kwargs)
-
-
-def get_session():
-    warn(
-        "'trustpilot.client.get_session' is deprecated!, "
-        "use trustpilot.client.default_session instead",
-        DeprecationWarning,
-    )
-    return default_session
-
-
-def create_session(
-    api_host=None,
-    api_version=None,
-    api_key=None,
-    api_secret=None,
-    username=None,
-    password=None,
-    access_token_path=None,
-    token_issuer_host=None,
-    access_token=None,
-    user_agent=None,
-):
-    warn(
-        "'trustpilot.client.create_session' is deprecated!, "
-        "use trustpilot.client.default_session.setup instead",
-        DeprecationWarning,
-    )
-
-    default_session.setup(
-        api_host=api_host,
-        api_version=api_version,
-        api_key=api_key,
-        api_secret=api_secret,
-        access_token=access_token,
-        token_issuer_path=access_token_path,
-        token_issuer_host=token_issuer_host,
-        username=username,
-        password=password,
-        user_agent=user_agent,
-    )
-
-    return default_session
 
 
 def post(url, data=None, json=None, **kwargs):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import click
 import json
 import logging
@@ -11,7 +10,7 @@ current_dir = path.dirname(path.abspath(getsourcefile(lambda: 0)))
 sys.path.insert(0, current_dir[: current_dir.rfind(path.sep)])
 logger = logging.getLogger(__name__)
 
-from trustpilot import client, auth, __version__
+from trustpilot import client, auth, VERSION
 from collections import OrderedDict
 
 
@@ -29,7 +28,7 @@ def format_response(response):
     output = OrderedDict()
     output["url"] = response.url
     output["status"] = response.status_code
-    if get_verbosity():  # pylint: disable=E1120
+    if get_verbosity():
         headers = response.headers
         output["headers"] = OrderedDict((k, headers[k]) for k in headers)
     output["content"] = content
@@ -86,11 +85,7 @@ def cli(ctx, **kwargs):
         \_| |_/ .__/|_|  \____/_|_|\___|_| |_|\__|
               | |
               |_|   """
-    splash = (
-        click.style(splash, fg="green")
-        + click.style("v{}".format(__version__), fg="red")
-        + "\n"
-    )
+    splash = click.style(splash, fg="green") + "\n"
 
     values_dict = {}
     config_filename = kwargs.pop("c")
@@ -122,7 +117,7 @@ def cli(ctx, **kwargs):
 
     # create default session
     try:
-        client.create_session(
+        client.default_session.setup(
             api_host=kwargs.pop("host")
             or values_dict.get("TRUSTPILOT_API_HOST")
             or "https://api.tp-staging.com",
@@ -215,4 +210,4 @@ def put(path, data, content_type):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=E1120
+    cli()

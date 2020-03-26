@@ -1,4 +1,3 @@
-# pylint: disable-all
 import pytest
 import sys
 from aioresponses import aioresponses
@@ -6,9 +5,6 @@ import asyncio
 from trustpilot import async_client
 
 
-@pytest.mark.skipif(
-    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
-)
 def test_async_client_auth_and_get():
     loop = asyncio.get_event_loop()
 
@@ -38,9 +34,6 @@ def test_async_client_auth_and_get():
         resp = loop.run_until_complete(get_response())
 
 
-@pytest.mark.skipif(
-    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
-)
 def test_async_api_version():
     loop = asyncio.get_event_loop()
 
@@ -70,9 +63,6 @@ def test_async_api_version():
         resp = loop.run_until_complete(get_response())
 
 
-@pytest.mark.skipif(
-    sys.version_info < (3, 6, 0), reason="async requires python 3.6.0 or above"
-)
 def test_advanced_context_manager_usage():
     loop = asyncio.get_event_loop()
 

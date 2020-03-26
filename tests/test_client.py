@@ -51,30 +51,6 @@ class TestCliMethods(unittest.TestCase):
         )
         return session
 
-    @mock.patch("trustpilot.client.auth", autospec=True)
-    def test_deprecated_create_session(self, auth_mock):
-        session = client.create_session(
-            api_host=self.api_host,
-            api_key=self.api_key,
-            api_secret=self.api_secret,
-            access_token_path=self.token_issuer_path,
-            token_issuer_host=self.token_issuer_host,
-            username=self.username,
-            password=self.password,
-            api_version=self.api_version,
-        )
-        for attr in [
-            "api_key",
-            "api_secret",
-            "api_host",
-            "token_issuer_path",
-            "token_issuer_host",
-            "username",
-            "password",
-            "api_version",
-        ]:
-            assert getattr(self, attr) == getattr(session, attr)
-
     @responses.activate
     def test_get_public_endpoint_with_apikey_and_no_access_token(self):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
