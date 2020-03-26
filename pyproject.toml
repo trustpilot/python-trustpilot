@@ -1,9 +1,24 @@
 [tool.poetry]
 name = "trustpilot"
 version = "8.0.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "trustpilot api client including cli tool"
+authors = [
+    "Johannes Valbjørn <jgv@trustpilot.com>",
+    "Thomas Thiebaud <tht@trustpilot.com>"
+]
+readme = "README.md"
+repository = "https://github.com/trustpilot/python-trustpilot"
 license = "MIT"
+keywords = ["trustpilot", "api", "client"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
