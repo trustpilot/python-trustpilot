@@ -1,8 +1,6 @@
 language: python
 python:
   - "3.7"
-  - "3.8"
-  # - "3.9" Not supported by travis yet
 cache: pip
 
 before_install:
@@ -17,16 +15,11 @@ script:
   - poetry run black --check .
   - poetry run pytest -vvv tests
 
-jobs:
-  include:
-    - stage: pypi
-      python: "3.7"
-      script: skip
-      deploy:
-        provider: script
-        script: poetry publish --build
-        on:
-          branch: master
+deploy:
+  provider: script
+  script: poetry publish --build
+  on:
+    branch: master
 
 notifications:
   email: false
