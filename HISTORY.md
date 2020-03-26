@@ -148,3 +148,7 @@ DELETED DO NOT USE\!\!
 - drop support for python 3.6
 - drop deprecated `trustpilot.client.get_session` method. It is replaced by `trustpilot.client.default_session`
 - drop deprecated `trustpilot.client.create_session` method. it is replaced by `trustpilot.client.default_session.setup`
+
+### 8.0.1 (2020-03-26)
+
+- create new patch version to fix travis
