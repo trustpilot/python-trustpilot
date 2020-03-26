@@ -144,5 +144,7 @@ DELETED DO NOT USE\!\!
 
 ### 8.0.0 (2020-03-25)
 
-- update click to version 7.0.1 which renames the command `create_access_token` to `create-access-token`
+- update click to version 7.1.1 which renames the command `create_access_token` to `create-access-token`
 - drop support for python 3.6
+- drop deprecated `trustpilot.client.get_session` method. It is replaced by `trustpilot.client.default_session`
+- drop deprecated `trustpilot.client.create_session` method. it is replaced by `trustpilot.client.default_session.setup`

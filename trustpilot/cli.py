@@ -117,7 +117,7 @@ def cli(ctx, **kwargs):
 
     # create default session
     try:
-        client.create_session(
+        client.default_session.setup(
             api_host=kwargs.pop("host")
             or values_dict.get("TRUSTPILOT_API_HOST")
             or "https://api.tp-staging.com",

@@ -6,11 +6,11 @@ Python HTTP client for [Trustpilot](https://developers.trustpilot.com/).
 
 ### Features
 
-* Extends the [`requests.Session`](http://docs.python-requests.org/en/master/api/#requests.Session) class with automatic authentication for public and private endpoints
-* GET, POST, PUT, DELETE, HEAD, OPTIONS and PATCH methods are exposed on module level
-* Implements session factory and default singleton session
-* Provides a simple hook system
-* CLI tool with basic HTTP commands
+- Extends the [`requests.Session`](http://docs.python-requests.org/en/master/api/#requests.Session) class with automatic authentication for public and private endpoints
+- GET, POST, PUT, DELETE, HEAD, OPTIONS and PATCH methods are exposed on module level
+- Implements session factory and default singleton session
+- Provides a simple hook system
+- CLI tool with basic HTTP commands
 
 ## Installation
 
@@ -21,6 +21,7 @@ pip install trustpilot
 ```
 
 if you wanna install with async support (python>=3.6+) then install with
+
 ```
 pip install trustpilot[async]
 ```
@@ -125,10 +126,10 @@ loop.run_until_complete(get_response())
 
 ### Advanced async usage
 
-The async client uses an *asynccontextmanager* under the hood to perform the supported request methods.
+The async client uses an _asynccontextmanager_ under the hood to perform the supported request methods.
 A side effect of the implementation is that it buffers up all the content before returning it to the calling scope.
 
-You can get around this limitation by using the *asynccontextmanager* directly like in the next example.
+You can get around this limitation by using the _asynccontextmanager_ directly like in the next example.
 
 **Example with stream reading the raw aiohttp response object:**
 
@@ -179,7 +180,7 @@ Options:
   --help                    Show this message and exit.
 
 Commands:
-  create_access_token  Get an access token
+  create-access-token  Get an access token
   delete               Send a DELETE request
   get                  Send a GET request
   post                 Send a POST request with specified data
@@ -198,9 +199,3 @@ In order to use the **-c** option please supply the filename of a JSON in the fo
   "TRUSTPILOT_PASSWORD": "password"
 }
 ```
-
-## Tests
-
-You can use pytest to run tests against your current Python version. 
-
-See [`setup.py`](setup.py) for test dependencies.
