@@ -20,12 +20,6 @@ Install the package from [PyPI](http://pypi.python.org/pypi/) using [pip](https:
 pip install trustpilot
 ```
 
-if you wanna install with async support (python>=3.6+) then install with
-
-```
-pip install trustpilot[async]
-```
-
 ## Getting Started
 
 This client is using the [Requests](http://docs.python-requests.org/en/master/) library. Responses are standard [`requests.Response`](http://docs.python-requests.org/en/master/api/#requests.Response) objects. You can use it as a factory or as a singleton.
