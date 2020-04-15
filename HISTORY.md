@@ -152,3 +152,7 @@ DELETED DO NOT USE\!\!
 ### 8.0.1 (2020-03-26)
 
 - create new patch version to fix travis
+
+### 8.1.0 (2020-04-15)
+
+- reintroduce cli script
