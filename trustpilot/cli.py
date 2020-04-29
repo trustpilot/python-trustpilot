@@ -29,6 +29,7 @@ def format_response(response):
     content = response.text
 
     output_format = get_output_format()
+
     if output_format == "raw":
         lines = []
         lines.extend(["url", response.url, "\n"])
@@ -142,7 +143,6 @@ def cli(ctx, **kwargs):
     ctx.meta["trustpilot.verbosity"] = verbosity
 
     # setup output format
-
     output_format = kwargs.get("outputformat")
     ctx.meta["trustpilot.outputformat"] = output_format
 

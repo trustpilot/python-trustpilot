@@ -63,7 +63,7 @@ class TrustpilotSession(requests.Session):
             self.access_token = access_token
         except KeyError as e:
             logger.debug("Not auth setup, missing env-var or setup for {}".format(e))
-        
+
         self.api_version = api_version or environ.get("TRUSTPILOT_API_VERSION", "v1")
         self.token_issuer_host = token_issuer_host or self.api_host
         self.access_token = access_token
