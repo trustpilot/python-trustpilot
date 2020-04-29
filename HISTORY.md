@@ -156,3 +156,10 @@ DELETED DO NOT USE\!\!
 ### 8.1.0 (2020-04-15)
 
 - reintroduce cli script
+
+### 9.0.0 (2020-04-29)
+
+- username/passwrd are now optional
+- dot-env support in cli
+- `patch` command exposed in cli
+- output format can now be `raw` or `json`, (default=json)
