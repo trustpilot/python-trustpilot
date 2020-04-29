@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "trustpilot"
-version = "8.1.0"
+version = "9.0.0"
 description = "trustpilot api client including cli tool"
 authors = [
     "Johannes Valbjørn <jgv@trustpilot.com>",
