@@ -19,8 +19,8 @@ class TrustpilotAsyncSession:
     def setup(
         self,
         api_host=None,
-        api_version=None,
         api_key=None,
+        api_version=None,
         api_secret=None,
         username=None,
         password=None,
@@ -31,10 +31,20 @@ class TrustpilotAsyncSession:
         **kwargs
     ):
 
-        self.api_version = api_version or environ.get("TRUSTPILOT_API_VERSION", "v1")
         self.api_host = api_host or environ.get(
             "TRUSTPILOT_API_HOST", "https://api.trustpilot.com"
         )
+        try:
+            self.api_key = api_key or environ["TRUSTPILOT_API_KEY"]
+            self.api_secret = api_secret or environ.get("TRUSTPILOT_API_SECRET", "")
+            self.username = username or environ.get("TRUSTPILOT_USERNAME")
+            self.password = password or environ.get("TRUSTPILOT_PASSWORD")
+            self.access_token = access_token
+        except KeyError as e:
+            logger.debug("Not auth setup, missing env-var or setup for {}".format(e))
+
+        self.api_version = api_version or environ.get("TRUSTPILOT_API_VERSION", "v1")
+
         self.token_issuer_host = token_issuer_host or self.api_host
         self.access_token = access_token
         self.token_issuer_path = token_issuer_path or environ.get(
@@ -50,15 +60,6 @@ class TrustpilotAsyncSession:
             raise aiohttp.http_exceptions.InvalidURLError(
                 "'{}' is not a valid api_host url".format(api_host)
             )
-
-        try:
-            self.api_key = api_key or environ["TRUSTPILOT_API_KEY"]
-            self.api_secret = api_secret or environ.get("TRUSTPILOT_API_SECRET", "")
-            self.username = username or environ.get("TRUSTPILOT_USERNAME")
-            self.password = password or environ.get("TRUSTPILOT_PASSWORD")
-            self.access_token = access_token
-        except KeyError as e:
-            logger.debug("Not auth setup, missing env-var or setup for {}".format(e))
 
         return self
 

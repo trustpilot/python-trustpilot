@@ -22,9 +22,9 @@ Use the built-in `default session` to instantiate a globally accessible session.
 from trustpilot import client
 client.default_session.setup(
     api_host="https://api.trustpilot.com",  # optional, default: https://api.tp-staging.com
-    api_version="v1",  # optional, default: v1
     api_key="YOUR_API_KEY",  # required
     api_secret="YOUR_API_SECRET",  #  optional
+    api_version="v1",  # optional, default: v1
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME",  # optional
     password="YOUR_TRUSTPILOT_BUSINESS_PASSWORD"  # optional
 )
@@ -64,9 +64,9 @@ You can create as many sessions as you like, as long as you pass them around you
 from trustpilot import client
 session = client.TrustpilotSession(
     api_host="https://api.trustpilot.com",
-    api_version="v1",
     api_key="YOUR_API_KEY",
     api_secret="YOUR_API_SECRET",
+    api_version="v1",
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME",
     password="YOUR_TRUSTPILOT_BUSINESS_PASSWORD"
 )
@@ -101,10 +101,10 @@ from trustpilot import async_client
 loop = asyncio.get_event_loop()
 
 session = async_client.TrustpilotAsyncSession(
-    api_host="https://api.trustpilot.com", 
+    api_host="https://api.trustpilot.com", # optional, default: https://api.tp-staging.com
+    api_key="YOUR_API_KEY", # required
+    api_secret="YOUR_API_SECRET", # optional
     api_version="v1", # optional
-    api_key="YOUR_API_KEY",
-    api_secret="YOUR_API_SECRET",
     username="YOUR_TRUSTPILOT_BUSINESS_USERNAME", # optional
     password="YOUR_TRUSTPILOT_BUSINESS_PASSWORD" # optional
 )

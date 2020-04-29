@@ -80,9 +80,9 @@ You can also supply the variables with:
 ```json
 {
   "TRUSTPILOT_API_HOST": "foo",
-  "TRUSTPILOT_API_VERSION": "v1",
   "TRUSTPILOT_API_KEY": "bar",
   "TRUSTPILOT_API_SECRET": "baz",
+  "TRUSTPILOT_API_VERSION": "v1",
   "TRUSTPILOT_USERNAME": "username",
   "TRUSTPILOT_PASSWORD": "password"
 }
@@ -92,9 +92,9 @@ or **--env/-e** : As DotEnv config file in the following format:
 
 ```ini
 TRUSTPILOT_API_HOST=foo
-TRUSTPILOT_API_VERSION=v1
 TRUSTPILOT_API_KEY=bar
 TRUSTPILOT_API_SECRET=baz
+TRUSTPILOT_API_VERSION=v1
 TRUSTPILOT_USERNAME=username
 TRUSTPILOT_PASSWORD=password
 ```
