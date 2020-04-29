@@ -22,11 +22,15 @@ def create_access_token_request_params(session):
         api_version=session.api_version.rstrip("/"),
         token_issuer_path=session.token_issuer_path,
     )
-    data = {
-        "grant_type": "password",
-        "username": session.username,
-        "password": session.password,
-    }
+
+    data = {}
+
+    if session.username and session.password:
+        data = {
+            "grant_type": "password",
+            "username": session.username,
+            "password": session.password,
+        }
 
     headers = {
         "Authorization": "Basic {}".format(

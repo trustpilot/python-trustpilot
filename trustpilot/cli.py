@@ -19,36 +19,61 @@ def get_verbosity(ctx):
     return ctx.meta.get("trustpilot.verbosity", 0)
 
 
+@click.pass_context
+def get_output_format(ctx):
+    output_format = ctx.meta.get("trustpilot.outputformat", "json") or "json"
+    return output_format
+
+
 def format_response(response):
     content = response.text
-    try:
-        content = response.json()
-    except ValueError:
-        pass
-    output = OrderedDict()
-    output["url"] = response.url
-    output["status"] = response.status_code
-    if get_verbosity():
-        headers = response.headers
-        output["headers"] = OrderedDict((k, headers[k]) for k in headers)
-    output["content"] = content
 
-    return json.dumps(output, indent=2)
+    output_format = get_output_format()
+    if output_format == "raw":
+        lines = []
+        lines.extend(["url", response.url, "\n"])
+        lines.extend(["status", str(response.status_code), "\n"])
+        if get_verbosity():
+            lines.extend(
+                [
+                    e
+                    for t in [
+                        (f"headers.{key}", str(value), "\n")
+                        for key, value in response.headers.items()
+                    ]
+                    for e in t
+                ]
+            )
+        lines.extend(["content", content])
+        return "\n".join(lines)
+    elif output_format == "json":
+        try:
+            content = response.json()
+        except ValueError:
+            pass
+        output = OrderedDict()
+        output["url"] = response.url
+        output["status"] = response.status_code
+        if get_verbosity():
+            headers = response.headers
+            output["headers"] = OrderedDict((k, headers[k]) for k in headers)
+        output["content"] = content
+        return json.dumps(output, indent=2)
 
 
 @click.group(invoke_without_command=True)
 @click.pass_context
-@click.option("--host", type=str, help="host name", envvar="TRUSTPILOT_API_HOST")
+@click.option("--host", type=str, help="Host name", envvar="TRUSTPILOT_API_HOST")
 @click.option(
-    "--version", type=str, help="api version (e.g. v1)", envvar="TRUSTPILOT_API_VERSION"
+    "--version", type=str, help="Api version", envvar="TRUSTPILOT_API_VERSION"
 )
-@click.option("--key", type=str, help="api key", envvar="TRUSTPILOT_API_KEY")
-@click.option("--secret", type=str, help="api secret", envvar="TRUSTPILOT_API_SECRET")
+@click.option("--key", type=str, help="Api key", envvar="TRUSTPILOT_API_KEY")
+@click.option("--secret", type=str, help="Api secret", envvar="TRUSTPILOT_API_SECRET")
 @click.option(
     "--token_issuer_host",
     type=str,
     default="",
-    help="token issuer host name",
+    help="Token issuer host name",
     envvar="TRUSTPILOT_API_TOKEN_ISSUER_HOST",
 )
 @click.option(
@@ -65,8 +90,16 @@ def format_response(response):
     help="Trustpilot password",
     envvar="TRUSTPILOT_PASSWORD",
 )
-@click.option("-c", type=str, help="json config file name")
-@click.option("-v", "--verbose", count=True, help="verbosity level")
+@click.option("--config", "-c", type=click.File("r"), help="Json config file name")
+@click.option("--env", "-e", type=click.File("r"), help="Dot env file")
+@click.option(
+    "--outputformat",
+    "-of",
+    type=click.Choice(["json", "raw"], case_sensitive=False),
+    default="json",
+    help="Output format, default=json",
+)
+@click.option("-v", "--verbose", count=True, help="Verbosity level")
 def cli(ctx, **kwargs):
     splash = r"""
          _____              _         _ _       _
@@ -88,15 +121,30 @@ def cli(ctx, **kwargs):
     splash = click.style(splash, fg="green") + "\n"
 
     values_dict = {}
-    config_filename = kwargs.pop("c")
+    config_file = kwargs.pop("config")
 
-    if config_filename:
-        with open(config_filename, "r") as f:
-            values_dict = json.load(f)
+    if config_file:
+        values_dict.update(json.load(config_file))
+
+    env_file = kwargs.pop("env")
+    if env_file:
+        env_file_lines = env_file.read().split("\n")
+        values_dict.update(
+            dict(
+                (key, value[0])
+                for key, *value in (line.split("=", 1) for line in env_file_lines)
+                if key
+            )
+        )
 
     # setup verbosity level for global access
     verbosity = kwargs.get("verbose")
     ctx.meta["trustpilot.verbosity"] = verbosity
+
+    # setup output format
+
+    output_format = kwargs.get("outputformat")
+    ctx.meta["trustpilot.outputformat"] = output_format
 
     # setup logging (increasing information levels)
     # _ : content, url, status_code
@@ -132,8 +180,10 @@ def cli(ctx, **kwargs):
                 kwargs.pop("token_issuer_host")
                 or values_dict.get("TRUSTPILOT_API_TOKEN_ISSUER_HOST", None)
             ),
-            username=kwargs.pop("username") or values_dict["TRUSTPILOT_USERNAME"],
-            password=kwargs.pop("password") or values_dict["TRUSTPILOT_PASSWORD"],
+            username=kwargs.pop("username")
+            or values_dict.get("TRUSTPILOT_USERNAME", None),
+            password=kwargs.pop("password")
+            or values_dict.get("TRUSTPILOT_PASSWORD", None),
         )
     except KeyError as key:
         raise SystemExit("Missing argument: {}".format(key))
@@ -206,6 +256,24 @@ def put(path, data, content_type):
     """
     headers = {"content-type": content_type}
     response = client.put(url=path, data=data, headers=headers)
+    click.echo(format_response(response))
+
+
+@cli_command
+@click.argument("path")
+@click.option("--data", type=str, help="json_data to post")
+@click.option(
+    "--content-type",
+    type=str,
+    default="application/json",
+    help="content-type, default=application/json",
+)
+def patch(path, data, content_type):
+    """
+    Send a PATCH request with specified data
+    """
+    headers = {"content-type": content_type}
+    response = client.patch(url=path, data=data, headers=headers)
     click.echo(format_response(response))
 
 
