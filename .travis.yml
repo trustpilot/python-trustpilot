@@ -17,16 +17,5 @@ script:
   - poetry run black --check .
   - poetry run pytest -vvv tests
 
-jobs:
-  include:
-    - stage: pypi
-      python: "3.7"
-      script: skip
-      deploy:
-        provider: script
-        script: poetry publish --build
-        on:
-          branch: master
-
 notifications:
   email: false
