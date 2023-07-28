@@ -1,13 +1,9 @@
-import pytest
-import sys
 from aioresponses import aioresponses
 import asyncio
 from trustpilot import async_client
 
 
 def test_async_client_auth_and_get():
-    loop = asyncio.get_event_loop()
-
     with aioresponses() as m:
         m.get("https://api.tp-staging.com/v1/foo/bar", status=401)
         m.post(
@@ -31,12 +27,10 @@ def test_async_client_auth_and_get():
             assert response_json["foo"] == "foobarbaz"
             assert session.access_token == "foobarbaz"
 
-        resp = loop.run_until_complete(get_response())
+        asyncio.run(get_response())
 
 
 def test_async_api_version():
-    loop = asyncio.get_event_loop()
-
     with aioresponses() as m:
         m.get("https://api.tp-staging.com/v1/foo/bar", status=200)
         m.get("https://api.tp-staging.com/v1/v2/foo/bar", status=404)
@@ -60,12 +54,10 @@ def test_async_api_version():
             assert double_res.status == 404
             assert full_url_res.status == 200
 
-        resp = loop.run_until_complete(get_response())
+        asyncio.run(get_response())
 
 
 def test_advanced_context_manager_usage():
-    loop = asyncio.get_event_loop()
-
     with aioresponses() as m:
         m.get("https://api.tp-staging.com/v1/foo/bar", status=200, payload="foobar")
 
@@ -83,4 +75,4 @@ def test_advanced_context_manager_usage():
                 text = await resp.text()
                 assert text == '"foobar"'
 
-        resp = loop.run_until_complete(get_response())
+        asyncio.run(get_response())

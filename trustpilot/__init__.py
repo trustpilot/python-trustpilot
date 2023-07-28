@@ -1,6 +1,7 @@
-import pkg_resources
+from importlib import metadata
+
 
 try:
-    VERSION = pkg_resources.get_distribution("trustpilot").version
+    VERSION = metadata.version("trustpilot")
 except:
     VERSION = "unknown"
