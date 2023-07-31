@@ -163,3 +163,18 @@ DELETED DO NOT USE\!\!
 - dot-env support in cli
 - `patch` command exposed in cli
 - output format can now be `raw` or `json`, (default=json)
+
+### 10.0.0 (2023-07-28)
+
+- bumps versions of dependencies:
+  - `python`: 3.7 → 3.8
+  - `click`: 7.1.1 → 8.0.1
+  - `requests`: 2.23.0 → 2.31.0
+  - `aiohttp`: 3.6.2 → 3.8.5
+
+- bumps versions of development dependencies:
+  - `responses`: 0.10.12 → 0.23.2
+  - `mock`: 4.0.2 → 5.1.0
+  - `pytest`: 5.4.1 → 7.4.0
+  - `aioresponses`: 0.6.3 → 0.7.4
+  - `black`: 19.10b0 → 23.7.0
