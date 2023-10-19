@@ -88,7 +88,7 @@ class TrustpilotAsyncSession:
         async with aiohttp.ClientSession(headers=self.headers) as session:
             http_method = getattr(session, method)
             async with http_method(cleaned_url, *args, **kwargs) as response:
-                if response.status == 401:
+                if response.status in (401, 403):
                     authenticate_and_retry = True
                 else:
                     yield response

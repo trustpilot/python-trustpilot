@@ -28,8 +28,8 @@ _(for **full usage documentation** checkout [docs](https://github.com/trustpilot
 ```python
 from trustpilot import client
 client.default_session.setup(
-    api_host="https://api.trustpilot.com"
-    api_key="YOUR_API_KEY"
+    api_host="https://api.trustpilot.com",
+    api_key="YOUR_API_KEY",
 )
 response = client.get("/foo/bar")
 status_code = response.status_code
