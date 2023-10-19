@@ -112,7 +112,7 @@ class TrustpilotSession(requests.Session):
         req = response.request
         retry = getattr(req, "authentication_retry", True)
 
-        if retry and response.status_code == requests.codes.unauthorized:
+        if retry and response.status_code in (requests.codes.unauthorized, requests.codes.forbidden):
             logger.debug(
                 {"message": "reauthenticating and retrying once", "url": req.url}
             )
