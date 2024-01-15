@@ -23,7 +23,9 @@ def create_access_token_request_params(session):
         token_issuer_path=session.token_issuer_path,
     )
 
-    data = {}
+    data = {
+        'grant_type': 'client_credentials'
+        }
 
     if session.username and session.password:
         data = {
