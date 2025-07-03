@@ -50,7 +50,6 @@ class TrustpilotSession(requests.Session):
         user_agent=None,
         **kwargs
     ):
-
         self.api_host = api_host or environ.get(
             "TRUSTPILOT_API_HOST", "https://api.trustpilot.com"
         )
@@ -112,7 +111,10 @@ class TrustpilotSession(requests.Session):
         req = response.request
         retry = getattr(req, "authentication_retry", True)
 
-        if retry and response.status_code in (requests.codes.unauthorized, requests.codes.forbidden):
+        if retry and response.status_code in (
+            requests.codes.unauthorized,
+            requests.codes.forbidden,
+        ):
             logger.debug(
                 {"message": "reauthenticating and retrying once", "url": req.url}
             )
