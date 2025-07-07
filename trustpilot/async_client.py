@@ -30,7 +30,6 @@ class TrustpilotAsyncSession:
         user_agent=None,
         **kwargs
     ):
-
         self.api_host = api_host or environ.get(
             "TRUSTPILOT_API_HOST", "https://api.trustpilot.com"
         )
@@ -113,7 +112,6 @@ class TrustpilotAsyncSession:
         return await self.authenticated_request("post", url, *args, **kwargs)
 
     async def get(self, url, *args, **kwargs):
-
         return await self.authenticated_request("get", url, *args, **kwargs)
 
     async def put(self, url, *args, **kwargs):

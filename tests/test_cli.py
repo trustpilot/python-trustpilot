@@ -49,7 +49,7 @@ class TestCliMethodsJsonOutput(unittest.TestCase):
             }
         }
         self.response_mock = response_mock
-        self.expected_output = u"""{
+        self.expected_output = """{
           "url": "https://api.trustpilot.com/v1/business-units/5400267300006400057a0113/reviews",
           "status": 401,
           "content": {
@@ -62,7 +62,7 @@ class TestCliMethodsJsonOutput(unittest.TestCase):
           }
         }
         """
-        self.expected_verbose_output = u"""{
+        self.expected_verbose_output = """{
           "url": "https://api.trustpilot.com/v1/business-units/5400267300006400057a0113/reviews",
           "status": 401,
           "headers": {
@@ -106,7 +106,6 @@ class TestCliMethodsJsonOutput(unittest.TestCase):
     @mock.patch("trustpilot.cli.client", autospec=True)
     @mock.patch("trustpilot.cli.auth")
     def test_no_verbosity_with_get(self, auth_mock, client_mock):
-
         client_mock.get.return_value = self.response_mock
 
         result = self.runner.invoke(
@@ -278,7 +277,6 @@ class TestCliMethodsRawOutput(unittest.TestCase):
     @mock.patch("trustpilot.cli.client", autospec=True)
     @mock.patch("trustpilot.cli.auth")
     def test_no_verbosity_with_get(self, auth_mock, client_mock):
-
         client_mock.get.return_value = self.response_mock
 
         result = self.runner.invoke(
